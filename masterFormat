@@ -1,0 +1,205 @@
+Sub MasterFormat()
+
+Dim WS As Worksheet
+Dim c As Range
+Dim CelNum As Integer
+Dim grid As Integer
+
+Call ClearContentsBelowData
+
+Call Banner1
+Call FandR
+For Each WS In Worksheets
+    WS.Select
+    Set c = WS.Range("B15:B500").Find("Base", MatchCase:=True)
+    If c Is Nothing Then
+    'MsgBox "Grid Q"
+    Call TabTitles(WS)
+    End If
+    If Not c Is Nothing Then
+    Columns("B:B").EntireColumn.AutoFit
+If Columns("B:B").ColumnWidth > 40 Then
+Columns("B:B").ColumnWidth = 40
+End If
+End If
+    Next WS
+
+MsgBox "Formatting done!"
+
+End Sub
+
+Sub TabTitles(WS As Worksheet)
+
+Dim CelNum As Integer
+
+CelNum = 1
+Do While Range("A" & CelNum) = Empty
+CelNum = CelNum + 1
+    If CelNum > 100 Then
+    MsgBox "No title at Tab " + ActiveSheet.Name
+    Exit Do
+    
+    End If
+Loop
+Range("A" & CelNum).Select
+Selection.MergeCells = False
+Range("A" & CelNum).Copy
+Range("A1").PasteSpecial xlPasteValues
+Columns("A:A").ColumnWidth = 1.29
+Range("A" & CelNum).Clear
+Columns("B:B").EntireColumn.AutoFit
+If Columns("B:B").ColumnWidth > 40 Then
+Columns("B:B").ColumnWidth = 40
+End If
+
+
+
+End Sub
+
+    Sub Banner1()
+    Dim WST As Worksheet
+    
+    Dim CelNum1 As Integer
+    Dim test1 As Range
+    
+    tabnum = ActiveWorkbook.ActiveSheet.Name
+For Each WST In Worksheets
+    WST.Select
+    CelNum1 = 1
+    Do While Range("A" & CelNum1) <> Empty
+    CelNum1 = CelNum1 + 1
+    Loop
+
+If CelNum1 = 5 Then
+    
+    
+    Rows("6:6").RowHeight = 30.75
+    Rows("6:6").RowHeight = 30.75
+    Rows("7:7").RowHeight = 30.75
+    Rows("8:8").RowHeight = 30.75
+    Rows("9:9").RowHeight = 30.75
+   ' Range("C6:W6").Select
+   ' ActiveCell.FormulaR1C1 = "Gender"
+   'Range("C8:I8").Select
+   ' ActiveCell.FormulaR1C1 = "Age"
+   ' Range("J8:P8").Select
+    'ActiveCell.FormulaR1C1 = "Age"
+   ' Range("Q8:W8").Select
+    'ActiveCell.FormulaR1C1 = "Age"
+   ' Range("A1").Select
+   ' Range("AC6:AG6").Select
+    'ActiveCell.FormulaR1C1 = "Generation"
+
+    Set test1 = WST.Range("A1:A4")
+    
+    test1.ClearContents
+
+    ElseIf CelNum1 = 7 Then
+    Rows("8:8").RowHeight = 30.75
+    Rows("9:9").RowHeight = 30.75
+    Rows("10:10").RowHeight = 30.75
+    Rows("11:11").RowHeight = 30.75
+    'Range("C8:W8").Select
+   ' ActiveCell.FormulaR1C1 = "Gender"
+   ' Range("C10:I10").Select
+    'ActiveCell.FormulaR1C1 = "Age"
+   ' Range("J10:P10").Select
+    'ActiveCell.FormulaR1C1 = "Age"
+    'Range("Q10:W10").Select
+   ' ActiveCell.FormulaR1C1 = "Age"
+    'Range("AC8:AG8").Select
+    'ActiveCell.FormulaR1C1 = "Generation"
+    
+    Set test1 = WST.Range("A1:A6")
+    test1.ClearContents
+    
+    Else
+    MsgBox "Too many filters to autoformat banner at " + ActiveSheet.Name
+    End If
+    Next
+    
+
+End Sub
+
+Sub ClearContentsBelowData()
+    Dim WS          As Worksheet
+    Dim RowNum      As Integer
+    Dim result      As Range
+
+    For Each WS In Worksheets
+         Set result = WS.Range("a:a").Find("Cell Contents:")
+         If Not result Is Nothing Then
+            RowNum = result.Row
+            WS.Range("a" & RowNum).Value = ""
+            RowNum = RowNum + 1
+            Do While WS.Range("a" & RowNum).Value <> Empty
+                WS.Range("a" & RowNum).Value = ""
+                 RowNum = RowNum + 1
+            Loop
+        End If
+    Next
+End Sub
+
+Sub FandR()
+
+Dim wk As Worksheet
+
+For Each wk In Worksheets
+wk.Select
+
+Cells.Replace What:="<b>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="</b>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="<br/>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="<strong>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="</strong>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="<i>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="</i>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+Cells.Replace What:="</span>", Replacement:="", LookAt:=xlPart, SearchOrder _
+        :=xlByRows, MatchCase:=False, SearchFormat:=False, ReplaceFormat:=False
+        
+        
+Next
+    
+End Sub
+
+Sub GridQs()
+
+Dim rowCount As Integer
+Dim WS As Worksheet
+Dim a1 As Range
+Dim sheetcount As Integer
+
+
+rowCount = 0
+'Set a1 = WS.Range("A1")
+
+
+For Each WS In Worksheets
+WS.Select
+If WS.Range("A1") = Empty Then
+rowCount = rowCount + 1
+Sheets("Grids").Select
+Range("A" & rowCount).Select
+Selection.Copy
+WS.Select
+Range("A1").PasteSpecial xlPasteValues
+End If
+Next
+
+
+End Sub
+
